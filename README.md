@@ -6,6 +6,7 @@
 
 - [Lire le manuel d’utilisation](MANUEL_UTILISATION.md)
 - [Visiter le site du jeu](https://la-fondation-oraculum.github.io/ORACULUM/)
+- [Donner un retour d’expérience](https://la-fondation-oraculum.github.io/ORACULUM/retours.html)
 - [Voir les versions publiées](https://github.com/La-fondation-Oraculum/ORACULUM/releases)
 
 Les téléchargements Android et Linux seront disponibles dans les versions GitHub lorsqu’une Release aura été publiée. La version Android vise Android 9 et supérieur. La version Linux `.deb` vise Debian et Ubuntu. La version Windows est distribuée via le Microsoft Store.
