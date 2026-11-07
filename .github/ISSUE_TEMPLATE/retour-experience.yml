@@ -1,0 +1,57 @@
+name: Retour d’expérience
+description: Partagez un avis, une idée ou un problème rencontré en jouant à ORACULUM.
+title: "[Retour] "
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Merci de nous aider à améliorer ORACULUM. Ce retour sera publié comme
+        discussion publique dans le dépôt. N’incluez aucune donnée personnelle,
+        mot de passe, adresse privée ou fichier de sauvegarde.
+  - type: dropdown
+    id: plateforme
+    attributes:
+      label: Plateforme utilisée
+      options:
+        - Android
+        - Windows
+        - Linux
+        - Autre
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version du jeu
+      description: Si vous ne la connaissez pas, laissez ce champ vide.
+      placeholder: "Ex. 1.1.0"
+    validations:
+      required: false
+  - type: textarea
+    id: avis_general
+    attributes:
+      label: Votre avis général
+      description: Qu’avez-vous pensé de votre expérience ?
+      placeholder: Racontez-nous votre enquête...
+    validations:
+      required: true
+  - type: textarea
+    id: points_forts
+    attributes:
+      label: Ce que vous avez préféré
+      description: Énigmes, histoire, ambiance, interface ou autre.
+    validations:
+      required: false
+  - type: textarea
+    id: problemes
+    attributes:
+      label: Problème rencontré (facultatif)
+      description: Indiquez les étapes pour que nous puissions comprendre.
+    validations:
+      required: false
+  - type: textarea
+    id: suggestions
+    attributes:
+      label: Vos idées pour la suite (facultatif)
+    validations:
+      required: false
