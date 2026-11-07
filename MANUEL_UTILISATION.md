@@ -4,7 +4,7 @@
 
 Au premier lancement, choisis **Nouvelle partie**. Pour reprendre une enquête enregistrée sur cet appareil, choisis **Continuer** ou charge une sauvegarde depuis le menu, selon la version.
 
-Les chapitres se débloquent progressivement : termine le chapitre en cours pour ouvrir le suivant.
+Les chapitres se débloquent progressivement : termine le chapitre en cours pour ouvrir le suivant. Dans la version Linux 1.1.2, une réponse correcte fait avancer automatiquement vers l’énigme suivante après un court message de réussite.
 
 ## 2. Résoudre une énigme
 
@@ -44,7 +44,7 @@ Télécharge l’APK depuis la section **Releases** du dépôt. Ouvre le fichier
 Télécharge le paquet `.deb`, ouvre un terminal dans le dossier qui le contient et lance :
 
 ```bash
-sudo apt install ./ORACULUM-Linux-1.1.0-all.deb
+sudo apt install ./ORACULUM-Linux-1.1.2-all.deb
 ```
 
 Puis démarre ORACULUM depuis le menu Applications.

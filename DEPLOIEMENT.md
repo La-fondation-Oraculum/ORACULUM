@@ -13,9 +13,9 @@ L'adresse prévue est : https://la-fondation-oraculum.github.io/ORACULUM/
 La page attend les fichiers suivants dans une Release GitHub publique :
 
 - `ORACULUM-Android-1.1.0-debug.apk`
-- `ORACULUM-Linux-1.1.0-all.deb`
-- `ORACULUM-Linux-1.1.0.tar.gz`
+- `ORACULUM-Linux-1.1.2-all.deb`
+- `ORACULUM-Linux-1.1.2.tar.gz`
 
-La page fabrique les liens `releases/latest/download/NOM_DU_FICHIER`. Les paquets ne sont pas dans le dépôt et ne sont pas encore attachés à une Release. La connexion GitHub utilisée ici ne propose pas l'API de création de Release ni le téléversement des assets ; ces trois fichiers devront être ajoutés dans l'interface GitHub : **Releases → Draft a new release → Attach binaries**.
+La page fabrique les liens `releases/latest/download/NOM_DU_FICHIER`. Les paquets ne sont pas stockés dans le dépôt : il faut les joindre à une Release GitHub pour activer les téléchargements. La connexion GitHub utilisée ici permet de mettre à jour les fichiers du dépôt, mais pas de téléverser les binaires sur une Release. Ajoute les fichiers dans **Releases → Draft a new release → Attach binaries**.
 
-Les fichiers sont disponibles localement dans le dossier de livraison `outputs/ORACULUM_VERSION_SUIVANTE`.
+Les fichiers Linux 1.1.2 sont disponibles localement dans `outputs/ORACULUM_VERSION_SUIVANTE` : `ORACULUM-Linux-1.1.2-all.deb` et `ORACULUM-Linux-1.1.2.tar.gz`. L’APK Android référencé sur le site est `ORACULUM-Android-1.1.0-debug.apk`.

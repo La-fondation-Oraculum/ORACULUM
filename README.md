@@ -9,7 +9,11 @@
 - [Donner un retour d’expérience](https://la-fondation-oraculum.github.io/ORACULUM/retours.html)
 - [Voir les versions publiées](https://github.com/La-fondation-Oraculum/ORACULUM/releases)
 
-Les téléchargements Android et Linux seront disponibles dans les versions GitHub lorsqu’une Release aura été publiée. La version Android vise Android 9 et supérieur. La version Linux `.deb` vise Debian et Ubuntu. La version Windows est distribuée via le Microsoft Store.
+Les fichiers Android et Linux sont distribués dans les [versions GitHub](https://github.com/La-fondation-Oraculum/ORACULUM/releases). Android vise la version 9 et supérieure. Linux 1.1.2 est disponible en paquet `.deb` pour Debian/Ubuntu et en archive `.tar.gz` pour les autres distributions. Windows est distribué via le Microsoft Store.
+
+## Version Linux 1.1.2
+
+Cette mise à jour améliore l’interface de la version Linux et passe automatiquement à l’énigme suivante après une réponse correcte.
 
 ## À propos du jeu
 
