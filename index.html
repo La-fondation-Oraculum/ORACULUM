@@ -485,11 +485,24 @@ window.ORACULUM_GITHUB_REPO = "La-fondation-Oraculum/ORACULUM";
 </script>
 
 <script>
-// Sur téléphone, ouvrir ou recharger l’accueil sans ancre doit toujours commencer en haut.
+// À la réouverture, neutralise la restauration de défilement du navigateur.
+// Les liens d’ancre directs restent actifs lors d’un premier chargement.
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+function openAtTop() {
+  const root = document.documentElement;
+  const previousBehavior = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+  window.scrollTo(0, 0);
+  root.scrollTop = 0;
+  if (document.body) document.body.scrollTop = 0;
+  root.style.scrollBehavior = previousBehavior;
+}
 window.addEventListener("pageshow", (event) => {
-  if (event.persisted || window.location.hash || !window.matchMedia("(max-width:720px)").matches) return;
-  requestAnimationFrame(() => window.scrollTo({left:0, top:0, behavior:"instant"}));
-}, {once:true});
+  if (!event.persisted && window.location.hash) return;
+  openAtTop();
+  requestAnimationFrame(openAtTop);
+  setTimeout(openAtTop, 80);
+});
 </script>
 <script>
 (function(){
