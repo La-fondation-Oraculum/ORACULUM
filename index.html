@@ -442,6 +442,13 @@ window.ORACULUM_GITHUB_REPO = "La-fondation-Oraculum/ORACULUM";
 })();
 </script>
 
+<script>
+// Sur téléphone, ouvrir ou recharger l’accueil sans ancre doit toujours commencer en haut.
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted || window.location.hash || !window.matchMedia("(max-width:720px)").matches) return;
+  requestAnimationFrame(() => window.scrollTo({left:0, top:0, behavior:"instant"}));
+}, {once:true});
+</script>
 </body>
 
 
