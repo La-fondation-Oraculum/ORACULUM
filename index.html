@@ -180,6 +180,14 @@
   .motion-ready .reveal { opacity: 1; transform: none; transition: none; }
 }
 
+
+/* Navigation adaptée aux téléphones : les liens défilent dans leur propre bandeau sans élargir la page. */
+@media(max-width:720px){
+  .nav{align-items:stretch;flex-direction:column;justify-content:center;gap:8px;padding:10px 0}
+  .links{width:100%;min-width:0;max-width:100%;justify-content:flex-start;gap:18px;overflow-x:auto;white-space:nowrap;padding:2px 0 5px;scrollbar-width:none}
+  .links::-webkit-scrollbar{display:none}
+  .links a:nth-child(2){display:inline}
+}
 </style>
 
 
