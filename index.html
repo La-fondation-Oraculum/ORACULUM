@@ -149,38 +149,6 @@
 
 
   
-/* Animations d’apparition et mouvements doux, en respectant la préférence de mouvement réduit. */
-@keyframes oraculum-rise-in {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes oraculum-seal-breathe {
-  0%, 100% { box-shadow: 0 0 0 rgba(214,181,104,0); }
-  50% { box-shadow: 0 0 18px rgba(214,181,104,.22); }
-}
-.hero-in > * {
-  animation: oraculum-rise-in .8s cubic-bezier(.2,.7,.25,1) both;
-}
-.hero-in > :nth-child(1) { animation-delay: .08s; }
-.hero-in > :nth-child(2) { animation-delay: .18s; }
-.hero-in > :nth-child(3) { animation-delay: .28s; }
-.hero-in > :nth-child(4) { animation-delay: .38s; }
-.hero-in > :nth-child(5) { animation-delay: .48s; }
-.hero-in > :nth-child(6) { animation-delay: .58s; }
-.sigil { animation: oraculum-seal-breathe 5s ease-in-out infinite; }
-.motion-ready .reveal {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.25,1);
-  transition-delay: var(--reveal-delay, 0ms);
-}
-.motion-ready .reveal.is-visible { opacity: 1; transform: translateY(0); }
-@media (prefers-reduced-motion: reduce) {
-  .hero-in > *, .sigil { animation: none !important; }
-  .motion-ready .reveal { opacity: 1; transform: none; transition: none; }
-}
-
-
 /* Navigation adaptée aux téléphones : les liens passent sur plusieurs lignes sans déborder de la page. */
 @media(max-width:720px){
   .nav{align-items:stretch;flex-direction:column;justify-content:center;gap:8px;padding:10px 0}
@@ -188,24 +156,32 @@
   .links a:nth-child(2){display:inline}
 }
 
-.privacy-notice{position:fixed;z-index:30;right:18px;bottom:18px;width:min(470px,calc(100% - 36px));padding:18px;border:1px solid var(--gold2);background:rgba(17,19,25,.98);box-shadow:0 16px 48px rgba(0,0,0,.5)}
-.privacy-notice[hidden],.privacy-details[hidden]{display:none}
-.privacy-notice h2{margin:0 0 6px;color:var(--gold);font:19px var(--serif)}
-.privacy-notice p{margin:0 0 12px;color:#d1cfc9;font-size:12px;line-height:1.55}
-.privacy-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.privacy-actions .button{min-height:40px;padding-inline:15px;font-size:10px}
-.privacy-details{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}
-@media(max-width:480px){.privacy-notice{right:10px;bottom:10px;width:calc(100% - 20px);padding:15px}}
-.share-dialog{position:fixed;inset:0;margin:auto;width:min(450px,calc(100% - 32px));max-width:450px;padding:30px;border:1px solid var(--gold2);border-radius:6px;background:radial-gradient(ellipse at 50% 0,rgba(214,181,104,.12),transparent 75%),var(--panel);color:var(--cream);box-shadow:0 22px 70px rgba(0,0,0,.65)}
-.share-dialog::backdrop{background:rgba(0,0,0,.76);backdrop-filter:blur(4px)}
-.share-dialog-close{position:absolute;top:12px;right:14px;border:0;background:transparent;color:var(--muted);font:28px/1 var(--sans);cursor:pointer}
-.share-dialog .kicker{margin:8px 0}
-.share-dialog h2{margin:9px 0 12px;color:var(--gold);font:clamp(26px,6vw,34px)/1.15 var(--serif)}
-.share-dialog p{color:#d1cfc9;font-size:14px}
-.share-dialog-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.share-dialog-actions .button{flex:1;min-width:145px;cursor:pointer}
-.share-dialog .share-status{min-height:1.5em;margin:12px 0 0!important;color:var(--gold)!important;font-size:12px!important}
-@media(max-width:480px){.share-dialog{padding:25px 20px}.share-dialog-actions{flex-direction:column}.share-dialog-actions .button{width:100%}}
+    .share-card{max-width:760px;margin:28px auto 0;padding:22px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(214,181,104,.07),transparent 55%),var(--panel);text-align:center}
+    .share-card h3{margin:0 0 8px;color:var(--gold);font:22px var(--serif)}
+    .share-card p{margin:0 auto 16px;max-width:620px;color:var(--muted);font-size:13px}
+    .share-status{min-height:1.5em;margin:10px 0 0!important;color:var(--gold)!important;font-size:12px!important}
+    .privacy-notice{position:fixed;z-index:30;right:18px;bottom:18px;width:min(470px,calc(100% - 36px));padding:18px;border:1px solid var(--gold2);background:rgba(17,19,25,.98);box-shadow:0 16px 48px rgba(0,0,0,.5)}
+    .privacy-notice[hidden]{display:none}
+    .privacy-notice h2{margin:0 0 6px;color:var(--gold);font:19px var(--serif)}
+    .privacy-notice p{margin:0 0 12px;color:#d1cfc9;font-size:12px;line-height:1.55}
+    .privacy-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .privacy-actions .button{min-height:40px;padding-inline:15px;font-size:10px}
+    .privacy-details{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}
+    .privacy-details[hidden]{display:none}
+    .share-gate{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:20px;background:rgba(4,5,8,.78);backdrop-filter:blur(8px)}
+    .share-gate[hidden]{display:none}
+    .share-gate-card{position:relative;width:min(480px,100%);padding:28px;border:1px solid var(--gold2);background:radial-gradient(ellipse at 50% 0,rgba(214,181,104,.12),transparent 65%),var(--panel);box-shadow:0 24px 80px rgba(0,0,0,.65);text-align:center}
+    .share-gate-card h2{margin:8px 0;color:var(--gold);font:clamp(25px,6vw,32px)/1.2 var(--serif)}
+    .share-gate-card p{margin:0 auto 16px;max-width:390px;color:#d1cfc9;font-size:14px;line-height:1.6}
+    .share-gate-card strong{color:var(--gold)}
+    .share-gate-progress{height:3px;margin:18px 0;background:var(--panel2);overflow:hidden}
+    .share-gate-progress i{display:block;width:100%;height:100%;background:var(--gold);transform-origin:left;animation:share-countdown 10s linear forwards}
+    .share-gate-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .share-gate-actions .button{width:100%;min-width:0;min-height:44px;padding-inline:12px}
+    .share-gate-status{min-height:1.5em;margin:11px 0 0!important;color:var(--gold)!important;font-size:12px!important}
+    @keyframes share-countdown{to{transform:scaleX(0)}}
+    @media(max-width:480px){.share-gate-card{padding:23px 18px}.share-gate-actions{grid-template-columns:1fr}}
+    @media(max-width:480px){.privacy-notice{right:10px;bottom:10px;width:calc(100% - 20px);padding:15px}.share-card{padding:18px}}
 </style>
 
 
@@ -374,7 +350,7 @@
 
 
     <section id="telecharger"><div class="wrap"><div class="head"><div class="kicker">Le dossier est entre vos mains</div><h2>Télécharger ORACULUM</h2><p>Choisissez votre appareil. Les fichiers Android et Linux sont distribués comme versions d’essai.</p></div><div class="downloads">
-      <article class="download"><h3>Android 9 et plus</h3><p>Installe le jeu sur un téléphone ou une tablette Android. Le fichier APK est une version de test.</p><a class="button primary" data-release-asset="ORACULUM-Android-1.1.0-debug.apk">Télécharger l’APK</a><p class="download-note" hidden>Les téléchargements seront activés après la configuration du dépôt GitHub des versions.</p></article>
+      <article class="download"><h3>Android 9 et plus</h3><p>Installe le jeu sur un téléphone ou une tablette Android. APK version 1.2.2.</p><a class="button primary" data-release-asset="ORACULUM-1.2.2-Android.apk">Télécharger l’APK</a><p class="download-note" hidden>Les téléchargements seront activés après la configuration du dépôt GitHub des versions.</p></article>
       <article class="download"><h3>Linux</h3><p>Pour Debian et Ubuntu, le paquet DEB installe aussi les dépendances. L’archive convient aux autres distributions avec Python 3, Tkinter et ALSA.</p><div class="download-actions"><a class="button primary" data-release-asset="ORACULUM-Linux-1.1.2-all.deb">Télécharger le paquet .deb</a><a class="button" data-release-asset="ORACULUM-Linux-1.1.2.tar.gz">Télécharger l’archive .tar.gz</a></div><p class="download-note" hidden>Les téléchargements seront activés après la configuration du dépôt GitHub des versions.</p></article>
       <article class="download"><h3>Windows</h3><p>Retrouve ORACULUM et ses mises à jour depuis la fiche officielle Microsoft Store.</p><a class="button primary" href="https://apps.microsoft.com/store/detail/9PH7F4CQ3C2C?cid=DevShareMCLPCS" target="_blank" rel="noopener noreferrer">Voir sur Microsoft Store</a><p class="tiny">La disponibilité dépend de la publication officielle.</p></article>
     </div></div></section>
@@ -383,7 +359,7 @@
     <section id="demarrer"><div class="wrap"><div class="head"><div class="kicker">Guide de démarrage</div><h2>Prêt à jouer ?</h2><p>Gardez ce guide à portée de main lors du premier lancement.</p></div><div class="guide">
 
 
-      <article class="step"><h3>1 · Android</h3><ol><li>Télécharge l’APK sur ton appareil.</li><li>Ouvre le fichier téléchargé et autorise l’installation depuis cette source si Android le demande.</li><li>Appuie sur <b>Installer</b>, puis ouvre ORACULUM.</li></ol></article>
+      <article class="step"><h3>1 · Android</h3><ol><li>Télécharge l’APK 1.2.2 sur ton appareil.</li><li>Ouvre le fichier téléchargé et autorise l’installation depuis cette source si Android le demande.</li><li>Appuie sur <b>Installer</b>, puis ouvre ORACULUM.</li></ol></article>
 
 
       <article class="step"><h3>2 · Debian / Ubuntu</h3><p>Télécharge le paquet .deb, ouvre un terminal dans le dossier Téléchargements, puis lance :</p><code class="command">sudo apt install ./ORACULUM-Linux-1.1.2-all.deb</code><p>Ensuite, lance ORACULUM depuis le menu Applications.</p></article>
@@ -406,36 +382,33 @@ cd oraculum-linux-1.1.2
     </div></div></section>
 
 
-    <section id="communaute"><div class="wrap"><div class="head"><div class="kicker">Rejoindre les enquêteurs</div><h2>Suivez le projet</h2><p>Retrouvez la communauté, partagez vos retours et échangez autour des énigmes.</p></div><div class="social"><a class="button primary" href="retours.html">Donner mon retour</a><a class="button" href="https://www.reddit.com/r/oraculum_jeu/" target="_blank" rel="noopener noreferrer">Reddit</a><a class="button" href="https://discord.gg/6vrcQhs96c" target="_blank" rel="noopener noreferrer">Discord</a></div></div></section>
+    <section id="communaute"><div class="wrap"><div class="head"><div class="kicker">Rejoindre les enquêteurs</div><h2>Suivez le projet</h2><p>Retrouvez la communauté, partagez vos retours et échangez autour des énigmes.</p></div><div class="social"><a class="button primary" href="retours.html">Donner mon retour</a><a class="button" href="https://www.reddit.com/r/oraculum_jeu/" target="_blank" rel="noopener noreferrer">Reddit</a><a class="button" href="https://discord.gg/6vrcQhs96c" target="_blank" rel="noopener noreferrer">Discord</a></div>
+      <div class="share-card"><h3>Fais circuler le dossier</h3><p>Tu connais quelqu’un qui aime les énigmes ? Envoie-lui le lien d’ORACULUM. Cette invitation est gratuite : aucun paiement, bonus ou avantage n’est lié au nombre de personnes invitées.</p><button class="button primary" id="share-oraculum" type="button">Partager ORACULUM</button><p class="share-status" id="share-status" role="status" aria-live="polite"></p></div>
+    </div></section>
 
 
   </main>
 
 
   <footer><div class="wrap"><strong>ORACULUM</strong><div>La vérité dort sous le voile.</div><div style="margin-top:8px">Créé et développé par La Fondation ORACULUM · Android · Windows · Linux</div><div style="margin-top:8px"><a href="https://oraculum-jeu.devscarabello.workers.dev">Site officiel</a></div></div></footer>
-<dialog class="share-dialog" id="share-dialog" aria-labelledby="share-dialog-title">
-  <button class="share-dialog-close" id="share-dialog-close" type="button" aria-label="Fermer">×</button>
-  <div class="kicker">Une enquête à partager</div>
-  <h2 id="share-dialog-title">Fais circuler le dossier</h2>
-  <p>Tu connais quelqu’un qui aime les énigmes ? Envoie-lui le lien d’ORACULUM. Le partage est libre et gratuit, sans récompense liée aux invitations.</p>
-  <div class="share-dialog-actions"><button class="button primary" id="share-oraculum" type="button">Partager ORACULUM</button><button class="button" id="share-later" type="button">Plus tard</button></div>
-  <p class="share-status" id="share-status" role="status" aria-live="polite"></p>
-</dialog>
-<aside class="privacy-notice" id="privacy-notice" aria-labelledby="privacy-title" aria-describedby="privacy-copy" hidden>
-  <h2 id="privacy-title">Cookies et confidentialité</h2>
-  <p id="privacy-copy">ORACULUM n’utilise pas de cookies publicitaires ni de suivi. Seul votre choix de fermer cette notice est mémorisé sur cet appareil.</p>
-  <div class="privacy-actions"><button class="button primary" id="privacy-close" type="button">Compris, fermer</button><button class="button" id="privacy-details-toggle" type="button" aria-expanded="false" aria-controls="privacy-details">En savoir plus</button></div>
-  <div class="privacy-details" id="privacy-details" hidden>Ce choix reste dans le stockage local de votre navigateur. Il n’est pas envoyé au site et ne sert pas à vous suivre.</div>
-</aside>
-<script>
-(function(){
- const notice=document.getElementById("privacy-notice"),closeButton=document.getElementById("privacy-close"),detailsButton=document.getElementById("privacy-details-toggle"),details=document.getElementById("privacy-details");
- let dismissed=false;try{dismissed=localStorage.getItem("oraculum-privacy-notice-dismissed")==="true"}catch{}
- if(!dismissed)notice.hidden=false;
- closeButton.addEventListener("click",()=>{notice.hidden=true;try{localStorage.setItem("oraculum-privacy-notice-dismissed","true")}catch{}});
- detailsButton.addEventListener("click",()=>{details.hidden=!details.hidden;detailsButton.setAttribute("aria-expanded",String(!details.hidden))});
-})();
-</script>
+
+  <aside class="share-gate" id="share-gate" role="dialog" aria-modal="true" aria-labelledby="share-gate-title" aria-describedby="share-gate-copy" hidden>
+    <div class="share-gate-card">
+      <div class="kicker">LE DOSSIER CIRCULE</div>
+      <h2 id="share-gate-title">Fais connaître ORACULUM</h2>
+      <p id="share-gate-copy">Si le jeu t’intéresse, partage son lien avec quelqu’un. C’est facultatif et sans récompense. <strong>La suite s’ouvrira dans <span id="share-gate-countdown" aria-live="polite">10</span> secondes.</strong></p>
+      <div class="share-gate-progress" aria-hidden="true"><i id="share-gate-progress-fill"></i></div>
+      <div class="share-gate-actions"><button class="button" id="share-gate-share" type="button">Partager le site</button><button class="button primary" id="share-gate-continue" type="button">Continuer maintenant</button></div>
+      <p class="share-gate-status" id="share-gate-status" role="status" aria-live="polite"></p>
+    </div>
+  </aside>
+
+  <aside class="privacy-notice" id="privacy-notice" aria-labelledby="privacy-title" aria-describedby="privacy-copy" hidden>
+    <h2 id="privacy-title">Cookies et confidentialité</h2>
+    <p id="privacy-copy">ORACULUM n’utilise pas de cookies publicitaires ni de suivi. Seul votre choix de fermer cette notice est mémorisé sur cet appareil.</p>
+    <div class="privacy-actions"><button class="button primary" id="privacy-close" type="button">Compris, fermer</button><button class="button" id="privacy-details-toggle" type="button" aria-expanded="false" aria-controls="privacy-details">En savoir plus</button></div>
+    <div class="privacy-details" id="privacy-details" hidden>Ce choix reste dans le stockage local de votre navigateur. Il n’est pas envoyé au site et ne sert pas à vous suivre.</div>
+  </aside>
 
 
 <script>
@@ -459,71 +432,117 @@ window.ORACULUM_GITHUB_REPO = "La-fondation-Oraculum/ORACULUM";
   });
 })();
 </script>
-
 <script>
-(() => {
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduceMotion || !("IntersectionObserver" in window)) return;
-  const elements = document.querySelectorAll(
-    "section .head, .story > *, .chapter, .feature, .download, .step, .quote, .social .button"
-  );
-  if (!elements.length) return;
-  elements.forEach((element, index) => {
-    element.classList.add("reveal");
-    element.style.setProperty("--reveal-delay", `${(index % 4) * 75}ms`);
+(function () {
+  const gate = document.getElementById("share-gate");
+  const countdown = document.getElementById("share-gate-countdown");
+  const progressFill = document.getElementById("share-gate-progress-fill");
+  const shareButton = document.getElementById("share-gate-share");
+  const continueButton = document.getElementById("share-gate-continue");
+  const status = document.getElementById("share-gate-status");
+  const siteUrl = "https://la-fondation-oraculum.github.io/ORACULUM/";
+  const shareData = { title: "ORACULUM — La vérité dort sous le voile", text: "Découvre ORACULUM, un jeu d’énigmes narratif.", url: siteUrl };
+  let pendingUrl = "", remaining = 10000, lastTick = 0, sharing = false, timer = 0;
+  function continueToDestination() {
+    if (!pendingUrl) return;
+    const destination = pendingUrl;
+    pendingUrl = "";
+    clearInterval(timer);
+    gate.hidden = true;
+    window.location.assign(destination);
+  }
+  function updateCountdown() {
+    countdown.textContent = String(Math.max(0, Math.ceil(remaining / 1000)));
+    if (remaining <= 0 && !sharing) continueToDestination();
+  }
+  function openGate(destination) {
+    pendingUrl = destination;
+    remaining = 10000;
+    sharing = false;
+    status.textContent = "";
+    countdown.textContent = "10";
+    progressFill.style.animation = "none";
+    void progressFill.offsetWidth;
+    progressFill.style.animation = "share-countdown 10s linear forwards";
+    gate.hidden = false;
+    continueButton.focus({ preventScroll: true });
+    clearInterval(timer);
+    lastTick = Date.now();
+    timer = window.setInterval(() => {
+      const now = Date.now();
+      if (!sharing) remaining -= now - lastTick;
+      lastTick = now;
+      updateCountdown();
+    }, 100);
+  }
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest("a[data-release-asset],a[href*='apps.microsoft.com/store/detail/9PH7F4CQ3C2C']");
+    if (!link || !link.href || link.getAttribute("aria-disabled") === "true") return;
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    openGate(link.href);
   });
-  document.documentElement.classList.add("motion-ready");
-  const observer = new IntersectionObserver((entries, activeObserver) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("is-visible");
-      activeObserver.unobserve(entry.target);
-    });
-  }, { threshold: 0.12, rootMargin: "0px 0px -4% 0px" });
-  elements.forEach((element) => observer.observe(element));
+  shareButton.addEventListener("click", async () => {
+    sharing = true;
+    try {
+      if (navigator.share) { await navigator.share(shareData); status.textContent = "Merci d’avoir partagé le lien."; }
+      else if (navigator.clipboard && navigator.clipboard.writeText) { await navigator.clipboard.writeText(siteUrl); status.textContent = "Lien copié. Tu peux l’envoyer à quelqu’un."; }
+      else status.textContent = siteUrl;
+    } catch (error) {
+      if (error.name !== "AbortError") status.textContent = "Le partage n’a pas abouti. Tu peux continuer.";
+    } finally {
+      sharing = false;
+      lastTick = Date.now();
+      updateCountdown();
+    }
+  });
+  continueButton.addEventListener("click", continueToDestination);
+  gate.addEventListener("keydown", (event) => { if (event.key === "Escape") continueToDestination(); });
 })();
 </script>
+<script>
+(function () {
+  const shareButton = document.getElementById("share-oraculum");
+  const shareStatus = document.getElementById("share-status");
+  const shareData = { title: "ORACULUM — La vérité dort sous le voile", text: "Découvre ORACULUM, un jeu d’énigmes narratif. À ton tour, tu peux partager le dossier avec qui tu veux.", url: "https://la-fondation-oraculum.github.io/ORACULUM/" };
+  shareButton?.addEventListener("click", async () => {
+    if (navigator.share) {
+      try { await navigator.share(shareData); shareStatus.textContent = "Le menu de partage a été ouvert."; }
+      catch (error) { if (error.name !== "AbortError") shareStatus.textContent = "Le partage n’a pas abouti. Tu peux réessayer."; }
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(shareData.url);
+      shareStatus.textContent = "Lien copié. Tu peux l’envoyer à la personne de ton choix.";
+    } catch {
+      shareStatus.textContent = "Copie automatique indisponible. Copie l’adresse du site depuis la barre du navigateur.";
+    }
+  });
 
-<script>
-// À chaque ouverture, efface une ancienne ancre et neutralise la restauration du défilement.
-if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-function openAtTop() {
-  if (window.location.hash) history.replaceState(history.state, "", window.location.pathname + window.location.search);
-  const root = document.documentElement;
-  const previousBehavior = root.style.scrollBehavior;
-  root.style.scrollBehavior = "auto";
-  window.scrollTo(0, 0);
-  root.scrollTop = 0;
-  if (document.body) document.body.scrollTop = 0;
-  root.style.scrollBehavior = previousBehavior;
-}
-window.addEventListener("pageshow", () => {
-  openAtTop();
-  requestAnimationFrame(openAtTop);
-  setTimeout(openAtTop, 250);
-});
-</script>
-<script>
-(function(){
- const dialog=document.getElementById("share-dialog"),button=document.getElementById("share-oraculum"),status=document.getElementById("share-status");
- const data={title:"ORACULUM — La vérité dort sous le voile",text:"Découvre ORACULUM, un jeu d’énigmes narratif. À ton tour, tu peux partager le dossier avec qui tu veux.",url:"https://la-fondation-oraculum.github.io/ORACULUM/"};
- const close=()=>{if(dialog.open)dialog.close()};
- document.getElementById("share-dialog-close").addEventListener("click",close);
- document.getElementById("share-later").addEventListener("click",close);
- dialog.addEventListener("click",event=>{if(event.target===dialog)close()});
- button.addEventListener("click",async()=>{
-  if(navigator.share){try{await navigator.share(data);status.textContent="Merci d’avoir fait circuler l’enquête.";setTimeout(close,900)}catch(error){if(error.name!=="AbortError")status.textContent="Le partage n’a pas abouti. Tu peux réessayer"}return}
-  try{await navigator.clipboard.writeText(data.url);status.textContent="Lien copié. Tu peux l’envoyer à la personne de ton choix.";setTimeout(close,1200)}
-  catch{status.textContent="Copie automatique indisponible. Copie l’adresse du site depuis la barre du navigateur"}
- });
- let seen=false;try{seen=sessionStorage.getItem("oraculum-share-popup-seen")==="true"}catch{}
- if(!seen&&typeof dialog.showModal==="function"){
-  try{sessionStorage.setItem("oraculum-share-popup-seen","true")}catch{}
-  setTimeout(()=>{if(!dialog.open)dialog.showModal()},7000);
- }
+  const notice = document.getElementById("privacy-notice");
+  const closeButton = document.getElementById("privacy-close");
+  const detailsButton = document.getElementById("privacy-details-toggle");
+  const details = document.getElementById("privacy-details");
+  let dismissed = false;
+  try { dismissed = localStorage.getItem("oraculum-privacy-notice-dismissed") === "true"; } catch {}
+  if (!dismissed) notice.hidden = false;
+  closeButton.addEventListener("click", () => {
+    notice.hidden = true;
+    try { localStorage.setItem("oraculum-privacy-notice-dismissed", "true"); } catch {}
+  });
+  detailsButton.addEventListener("click", () => {
+    details.hidden = !details.hidden;
+    detailsButton.setAttribute("aria-expanded", String(!details.hidden));
+  });
 })();
 </script>
-
+<script>
+// Sur téléphone, ouvrir ou recharger l’accueil sans ancre doit toujours commencer en haut.
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted || window.location.hash || !window.matchMedia("(max-width:720px)").matches) return;
+  requestAnimationFrame(() => window.scrollTo({left:0, top:0, behavior:"instant"}));
+}, {once:true});
+</script>
 </body>
 
 
