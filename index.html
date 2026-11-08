@@ -176,11 +176,14 @@
     .share-gate-card strong{color:var(--gold)}
     .share-gate-progress{height:3px;margin:18px 0;background:var(--panel2);overflow:hidden}
     .share-gate-progress i{display:block;width:100%;height:100%;background:var(--gold);transform-origin:left;animation:share-countdown 10s linear forwards}
-    .share-gate-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .share-gate-actions .button{width:100%;min-width:0;min-height:44px;padding-inline:12px}
+    .share-gate-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:14px 0}
+    .share-gate-links .button{width:100%;min-width:0;min-height:42px;padding:9px 10px;font-size:10px}
+    .share-gate-links[hidden]{display:none}
+    .share-gate-url{display:block;width:100%;margin:12px 0;padding:9px 10px;border:1px solid var(--line);background:var(--panel2);color:var(--cream);font:12px var(--sans);text-align:center}
+    .share-gate-url[hidden]{display:none}
     .share-gate-status{min-height:1.5em;margin:11px 0 0!important;color:var(--gold)!important;font-size:12px!important}
     @keyframes share-countdown{to{transform:scaleX(0)}}
-    @media(max-width:480px){.share-gate-card{padding:23px 18px}.share-gate-actions{grid-template-columns:1fr}}
+    @media(max-width:480px){.share-gate-card{padding:23px 18px}.share-gate-links{grid-template-columns:1fr 1fr}}
     @media(max-width:480px){.privacy-notice{right:10px;bottom:10px;width:calc(100% - 20px);padding:15px}.share-card{padding:18px}}
 </style>
 
@@ -396,9 +399,16 @@ cd oraculum-linux-1.1.2
     <div class="share-gate-card">
       <div class="kicker">LE DOSSIER CIRCULE</div>
       <h2 id="share-gate-title">Fais connaître ORACULUM</h2>
-      <p id="share-gate-copy">Si le jeu t’intéresse, partage son lien avec quelqu’un. C’est facultatif et sans récompense. <strong>La suite s’ouvrira dans <span id="share-gate-countdown" aria-live="polite">10</span> secondes.</strong></p>
+      <p id="share-gate-copy">Le lien du site est copié automatiquement. Tu peux le transmettre par WhatsApp, Facebook, Discord ou Telegram. C’est facultatif. <strong>Le téléchargement ou le Store s’ouvrira dans <span id="share-gate-countdown" aria-live="polite">10</span> secondes.</strong></p>
       <div class="share-gate-progress" aria-hidden="true"><i id="share-gate-progress-fill"></i></div>
-      <div class="share-gate-actions"><button class="button" id="share-gate-share" type="button">Partager le site</button><button class="button primary" id="share-gate-continue" type="button">Continuer maintenant</button></div>
+      <div class="share-gate-links" id="share-gate-links" aria-label="Partager le lien du site">
+        <a class="button" id="share-link-whatsapp" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a class="button" id="share-link-facebook" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a class="button" id="share-link-telegram" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a class="button" id="share-link-discord" href="https://discord.com/app" target="_blank" rel="noopener noreferrer">Discord · coller le lien</a>
+        <a class="button" id="share-link-email">E-mail</a>
+      </div>
+      <input class="share-gate-url" id="share-gate-url" type="url" readonly aria-label="Lien du site à copier" hidden>
       <p class="share-gate-status" id="share-gate-status" role="status" aria-live="polite"></p>
     </div>
   </aside>
@@ -437,11 +447,20 @@ window.ORACULUM_GITHUB_REPO = "La-fondation-Oraculum/ORACULUM";
   const gate = document.getElementById("share-gate");
   const countdown = document.getElementById("share-gate-countdown");
   const progressFill = document.getElementById("share-gate-progress-fill");
-  const shareButton = document.getElementById("share-gate-share");
-  const continueButton = document.getElementById("share-gate-continue");
+  const socialLinks = document.getElementById("share-gate-links");
+  const urlField = document.getElementById("share-gate-url");
   const status = document.getElementById("share-gate-status");
   const siteUrl = "https://la-fondation-oraculum.github.io/ORACULUM/";
   const shareData = { title: "ORACULUM — La vérité dort sous le voile", text: "Découvre ORACULUM, un jeu d’énigmes narratif.", url: siteUrl };
+  const shareText = `${shareData.text} ${siteUrl}`;
+  const mobileShare = Boolean(navigator.share && ((navigator.userAgentData && navigator.userAgentData.mobile) || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)));
+  document.getElementById("share-link-whatsapp").href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+  document.getElementById("share-link-facebook").href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(siteUrl)}`;
+  document.getElementById("share-link-telegram").href = `https://t.me/share/url?url=${encodeURIComponent(siteUrl)}&text=${encodeURIComponent(shareData.text)}`;
+  document.getElementById("share-link-email").href = `mailto:?subject=${encodeURIComponent(shareData.title)}&body=${encodeURIComponent(shareText)}`;
+  if (mobileShare) socialLinks.hidden = true;
+  urlField.value = siteUrl;
+  urlField.addEventListener("click", () => urlField.select());
   let pendingUrl = "", remaining = 10000, lastTick = 0, sharing = false, timer = 0;
   function continueToDestination() {
     if (!pendingUrl) return;
@@ -465,7 +484,6 @@ window.ORACULUM_GITHUB_REPO = "La-fondation-Oraculum/ORACULUM";
     void progressFill.offsetWidth;
     progressFill.style.animation = "share-countdown 10s linear forwards";
     gate.hidden = false;
-    continueButton.focus({ preventScroll: true });
     clearInterval(timer);
     lastTick = Date.now();
     timer = window.setInterval(() => {
@@ -475,28 +493,39 @@ window.ORACULUM_GITHUB_REPO = "La-fondation-Oraculum/ORACULUM";
       updateCountdown();
     }, 100);
   }
+  async function shareAutomatically() {
+    if (mobileShare) {
+      sharing = true;
+      try {
+        await navigator.share(shareData);
+        status.textContent = "Menu de partage fermé. Le téléchargement continue après le compte à rebours.";
+      } catch (error) {
+        if (error.name !== "AbortError") status.textContent = "Le partage automatique n’a pas abouti. Le téléchargement continuera.";
+      } finally {
+        sharing = false;
+        lastTick = Date.now();
+        updateCountdown();
+      }
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(siteUrl);
+      status.textContent = "Lien du site copié. Choisis où le partager.";
+    } catch {
+      urlField.hidden = false;
+      urlField.focus({ preventScroll: true });
+      urlField.select();
+      status.textContent = "La copie automatique est bloquée ici. Le lien est sélectionné : copie-le avec Ctrl+C.";
+    }
+  }
   document.addEventListener("click", (event) => {
     const link = event.target.closest("a[data-release-asset],a[href*='apps.microsoft.com/store/detail/9PH7F4CQ3C2C']");
     if (!link || !link.href || link.getAttribute("aria-disabled") === "true") return;
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     openGate(link.href);
+    shareAutomatically();
   });
-  shareButton.addEventListener("click", async () => {
-    sharing = true;
-    try {
-      if (navigator.share) { await navigator.share(shareData); status.textContent = "Merci d’avoir partagé le lien."; }
-      else if (navigator.clipboard && navigator.clipboard.writeText) { await navigator.clipboard.writeText(siteUrl); status.textContent = "Lien copié. Tu peux l’envoyer à quelqu’un."; }
-      else status.textContent = siteUrl;
-    } catch (error) {
-      if (error.name !== "AbortError") status.textContent = "Le partage n’a pas abouti. Tu peux continuer.";
-    } finally {
-      sharing = false;
-      lastTick = Date.now();
-      updateCountdown();
-    }
-  });
-  continueButton.addEventListener("click", continueToDestination);
   gate.addEventListener("keydown", (event) => { if (event.key === "Escape") continueToDestination(); });
 })();
 </script>
