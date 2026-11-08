@@ -196,11 +196,16 @@
 .privacy-actions .button{min-height:40px;padding-inline:15px;font-size:10px}
 .privacy-details{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}
 @media(max-width:480px){.privacy-notice{right:10px;bottom:10px;width:calc(100% - 20px);padding:15px}}
-.share-card{max-width:760px;margin:28px auto 0;padding:22px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(214,181,104,.07),transparent 55%),var(--panel);text-align:center}
-.share-card h3{margin:0 0 8px;color:var(--gold);font:22px var(--serif)}
-.share-card p{margin:0 auto 16px;max-width:620px;color:var(--muted);font-size:13px}
-.share-status{min-height:1.5em;margin:10px 0 0!important;color:var(--gold)!important;font-size:12px!important}
-@media(max-width:480px){.share-card{padding:18px}}
+.share-dialog{position:fixed;inset:0;margin:auto;width:min(450px,calc(100% - 32px));max-width:450px;padding:30px;border:1px solid var(--gold2);border-radius:6px;background:radial-gradient(ellipse at 50% 0,rgba(214,181,104,.12),transparent 75%),var(--panel);color:var(--cream);box-shadow:0 22px 70px rgba(0,0,0,.65)}
+.share-dialog::backdrop{background:rgba(0,0,0,.76);backdrop-filter:blur(4px)}
+.share-dialog-close{position:absolute;top:12px;right:14px;border:0;background:transparent;color:var(--muted);font:28px/1 var(--sans);cursor:pointer}
+.share-dialog .kicker{margin:8px 0}
+.share-dialog h2{margin:9px 0 12px;color:var(--gold);font:clamp(26px,6vw,34px)/1.15 var(--serif)}
+.share-dialog p{color:#d1cfc9;font-size:14px}
+.share-dialog-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.share-dialog-actions .button{flex:1;min-width:145px;cursor:pointer}
+.share-dialog .share-status{min-height:1.5em;margin:12px 0 0!important;color:var(--gold)!important;font-size:12px!important}
+@media(max-width:480px){.share-dialog{padding:25px 20px}.share-dialog-actions{flex-direction:column}.share-dialog-actions .button{width:100%}}
 </style>
 
 
@@ -401,7 +406,7 @@ cd oraculum-linux-1.1.2
     </div></div></section>
 
 
-    <section id="communaute"><div class="wrap"><div class="head"><div class="kicker">Rejoindre les enquêteurs</div><h2>Suivez le projet</h2><p>Retrouvez la communauté, partagez vos retours et échangez autour des énigmes.</p></div><div class="social"><a class="button primary" href="retours.html">Donner mon retour</a><a class="button" href="https://www.reddit.com/r/oraculum_jeu/" target="_blank" rel="noopener noreferrer">Reddit</a><a class="button" href="https://discord.gg/6vrcQhs96c" target="_blank" rel="noopener noreferrer">Discord</a></div><div class="share-card"><h3>Fais circuler le dossier</h3><p>Tu connais quelqu’un qui aime les énigmes ? Envoie-lui le lien d’ORACULUM. Cette invitation est gratuite : aucun paiement, bonus ou avantage n’est lié au nombre de personnes invitées.</p><button class="button primary" id="share-oraculum" type="button">Partager ORACULUM</button><p class="share-status" id="share-status" role="status" aria-live="polite"></p></div></div></section>
+    <section id="communaute"><div class="wrap"><div class="head"><div class="kicker">Rejoindre les enquêteurs</div><h2>Suivez le projet</h2><p>Retrouvez la communauté, partagez vos retours et échangez autour des énigmes.</p></div><div class="social"><a class="button primary" href="retours.html">Donner mon retour</a><a class="button" href="https://www.reddit.com/r/oraculum_jeu/" target="_blank" rel="noopener noreferrer">Reddit</a><a class="button" href="https://discord.gg/6vrcQhs96c" target="_blank" rel="noopener noreferrer">Discord</a></div></div></section>
 
 
   </main>
@@ -480,15 +485,32 @@ window.addEventListener("pageshow", (event) => {
 </script>
 <script>
 (function(){
- const button=document.getElementById("share-oraculum"),status=document.getElementById("share-status");
+ const dialog=document.getElementById("share-dialog"),button=document.getElementById("share-oraculum"),status=document.getElementById("share-status");
  const data={title:"ORACULUM — La vérité dort sous le voile",text:"Découvre ORACULUM, un jeu d’énigmes narratif. À ton tour, tu peux partager le dossier avec qui tu veux.",url:"https://la-fondation-oraculum.github.io/ORACULUM/"};
- button?.addEventListener("click",async()=>{
-  if(navigator.share){try{await navigator.share(data);status.textContent="Le menu de partage a été ouvert"}catch(error){if(error.name!=="AbortError")status.textContent="Le partage n’a pas abouti. Tu peux réessayer"}return}
-  try{await navigator.clipboard.writeText(data.url);status.textContent="Lien copié. Tu peux l’envoyer à la personne de ton choix"}
+ const close=()=>{if(dialog.open)dialog.close()};
+ document.getElementById("share-dialog-close").addEventListener("click",close);
+ document.getElementById("share-later").addEventListener("click",close);
+ dialog.addEventListener("click",event=>{if(event.target===dialog)close()});
+ button.addEventListener("click",async()=>{
+  if(navigator.share){try{await navigator.share(data);status.textContent="Merci d’avoir fait circuler l’enquête.";setTimeout(close,900)}catch(error){if(error.name!=="AbortError")status.textContent="Le partage n’a pas abouti. Tu peux réessayer"}return}
+  try{await navigator.clipboard.writeText(data.url);status.textContent="Lien copié. Tu peux l’envoyer à la personne de ton choix.";setTimeout(close,1200)}
   catch{status.textContent="Copie automatique indisponible. Copie l’adresse du site depuis la barre du navigateur"}
  });
+ let seen=false;try{seen=sessionStorage.getItem("oraculum-share-popup-seen")==="true"}catch{}
+ if(!seen&&typeof dialog.showModal==="function"){
+  try{sessionStorage.setItem("oraculum-share-popup-seen","true")}catch{}
+  setTimeout(()=>{if(!dialog.open)dialog.showModal()},7000);
+ }
 })();
 </script>
+<dialog class="share-dialog" id="share-dialog" aria-labelledby="share-dialog-title">
+  <button class="share-dialog-close" id="share-dialog-close" type="button" aria-label="Fermer">×</button>
+  <div class="kicker">Une enquête à partager</div>
+  <h2 id="share-dialog-title">Fais circuler le dossier</h2>
+  <p>Tu connais quelqu’un qui aime les énigmes ? Envoie-lui le lien d’ORACULUM. Le partage est libre et gratuit, sans récompense liée aux invitations.</p>
+  <div class="share-dialog-actions"><button class="button primary" id="share-oraculum" type="button">Partager ORACULUM</button><button class="button" id="share-later" type="button">Plus tard</button></div>
+  <p class="share-status" id="share-status" role="status" aria-live="polite"></p>
+</dialog>
 </body>
 
 
