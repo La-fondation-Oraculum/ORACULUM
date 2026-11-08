@@ -485,10 +485,10 @@ window.ORACULUM_GITHUB_REPO = "La-fondation-Oraculum/ORACULUM";
 </script>
 
 <script>
-// À la réouverture, neutralise la restauration de défilement du navigateur.
-// Les liens d’ancre directs restent actifs lors d’un premier chargement.
+// À chaque ouverture, efface une ancienne ancre et neutralise la restauration du défilement.
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 function openAtTop() {
+  if (window.location.hash) history.replaceState(history.state, "", window.location.pathname + window.location.search);
   const root = document.documentElement;
   const previousBehavior = root.style.scrollBehavior;
   root.style.scrollBehavior = "auto";
@@ -497,11 +497,10 @@ function openAtTop() {
   if (document.body) document.body.scrollTop = 0;
   root.style.scrollBehavior = previousBehavior;
 }
-window.addEventListener("pageshow", (event) => {
-  if (!event.persisted && window.location.hash) return;
+window.addEventListener("pageshow", () => {
   openAtTop();
   requestAnimationFrame(openAtTop);
-  setTimeout(openAtTop, 80);
+  setTimeout(openAtTop, 250);
 });
 </script>
 <script>
