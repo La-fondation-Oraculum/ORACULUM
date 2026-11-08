@@ -397,7 +397,7 @@ cd oraculum-linux-1.1.2
     <div class="share-gate-card">
       <div class="kicker">LE DOSSIER CIRCULE</div>
       <h2 id="share-gate-title">Fais connaître ORACULUM</h2>
-      <p id="share-gate-copy">Appuie sur <b>Partager</b> pour copier le lien sur ordinateur ou ouvrir le menu de partage sur téléphone. <strong>Le téléchargement ou le Store s’ouvrira après <span id="share-gate-countdown" aria-live="polite">30</span> secondes.</strong></p>
+      <p id="share-gate-copy">Le lien du site sera copié automatiquement. Le bouton <b>Partager</b> permet aussi de le copier sur ordinateur ou d’ouvrir le menu de partage sur téléphone. <strong>Le téléchargement ou le Store s’ouvrira 30 secondes après la copie.</strong></p>
       <div class="share-gate-progress" aria-hidden="true"><i id="share-gate-progress-fill"></i></div>
       <button class="button primary share-gate-share" id="share-gate-share" type="button">Partager</button>
       <input class="share-gate-url" id="share-gate-url" type="url" readonly aria-label="Lien du site à copier" hidden>
@@ -458,7 +458,7 @@ window.ORACULUM_GITHUB_REPO = "La-fondation-Oraculum/ORACULUM";
   }
   function updateCountdown() {
     countdown.textContent = String(Math.max(0, Math.ceil(remaining / 1000)));
-    if (remaining <= 0 && !sharing) continueToDestination();
+    if (remaining <= 0) continueToDestination();
   }
   function openGate(destination) {
     pendingUrl = destination;
@@ -467,9 +467,11 @@ window.ORACULUM_GITHUB_REPO = "La-fondation-Oraculum/ORACULUM";
     countdown.textContent = "30";
     progressFill.style.animation = "none";
     void progressFill.offsetWidth;
-    progressFill.style.animation = "share-countdown 30s linear forwards";
     gate.hidden = false;
     clearInterval(timer);
+  }
+  function startCountdown() {
+    progressFill.style.animation = "share-countdown 30s linear forwards";
     lastTick = Date.now();
     timer = window.setInterval(() => {
       const now = Date.now();
@@ -477,6 +479,24 @@ window.ORACULUM_GITHUB_REPO = "La-fondation-Oraculum/ORACULUM";
       lastTick = now;
       updateCountdown();
     }, 100);
+  }
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(siteUrl);
+      urlField.hidden = true;
+      status.textContent = "Lien du site copié. Tu peux le coller dans l’application de ton choix.";
+      return true;
+    } catch {
+      urlField.hidden = false;
+      urlField.focus({ preventScroll: true });
+      urlField.select();
+      status.textContent = "La copie automatique est bloquée ici. Le lien est sélectionné : copie-le avec Ctrl+C.";
+      return false;
+    }
+  }
+  async function copyBeforeCountdown() {
+    await copyLink();
+    startCountdown();
   }
   async function shareAutomatically() {
     if (mobileShare) {
@@ -488,15 +508,7 @@ window.ORACULUM_GITHUB_REPO = "La-fondation-Oraculum/ORACULUM";
       }
       return;
     }
-    try {
-      await navigator.clipboard.writeText(siteUrl);
-      status.textContent = "Lien du site copié. Tu peux le coller dans l’application de ton choix.";
-    } catch {
-      urlField.hidden = false;
-      urlField.focus({ preventScroll: true });
-      urlField.select();
-      status.textContent = "La copie automatique est bloquée ici. Le lien est sélectionné : copie-le avec Ctrl+C.";
-    }
+    await copyLink();
   }
   document.addEventListener("click", (event) => {
     const link = event.target.closest("a[data-release-asset],a[href*='apps.microsoft.com/store/detail/9PH7F4CQ3C2C']");
@@ -504,6 +516,7 @@ window.ORACULUM_GITHUB_REPO = "La-fondation-Oraculum/ORACULUM";
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     openGate(link.href);
+    copyBeforeCountdown();
   });
   shareButton.addEventListener("click", shareAutomatically);
 })();
