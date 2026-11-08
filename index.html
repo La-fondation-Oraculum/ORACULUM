@@ -413,6 +413,14 @@ cd oraculum-linux-1.1.2
 
 
   <footer><div class="wrap"><strong>ORACULUM</strong><div>La vérité dort sous le voile.</div><div style="margin-top:8px">Créé et développé par La Fondation ORACULUM · Android · Windows · Linux</div><div style="margin-top:8px"><a href="https://oraculum-jeu.devscarabello.workers.dev">Site officiel</a></div></div></footer>
+<dialog class="share-dialog" id="share-dialog" aria-labelledby="share-dialog-title">
+  <button class="share-dialog-close" id="share-dialog-close" type="button" aria-label="Fermer">×</button>
+  <div class="kicker">Une enquête à partager</div>
+  <h2 id="share-dialog-title">Fais circuler le dossier</h2>
+  <p>Tu connais quelqu’un qui aime les énigmes ? Envoie-lui le lien d’ORACULUM. Le partage est libre et gratuit, sans récompense liée aux invitations.</p>
+  <div class="share-dialog-actions"><button class="button primary" id="share-oraculum" type="button">Partager ORACULUM</button><button class="button" id="share-later" type="button">Plus tard</button></div>
+  <p class="share-status" id="share-status" role="status" aria-live="polite"></p>
+</dialog>
 <aside class="privacy-notice" id="privacy-notice" aria-labelledby="privacy-title" aria-describedby="privacy-copy" hidden>
   <h2 id="privacy-title">Cookies et confidentialité</h2>
   <p id="privacy-copy">ORACULUM n’utilise pas de cookies publicitaires ni de suivi. Seul votre choix de fermer cette notice est mémorisé sur cet appareil.</p>
@@ -503,14 +511,7 @@ window.addEventListener("pageshow", (event) => {
  }
 })();
 </script>
-<dialog class="share-dialog" id="share-dialog" aria-labelledby="share-dialog-title">
-  <button class="share-dialog-close" id="share-dialog-close" type="button" aria-label="Fermer">×</button>
-  <div class="kicker">Une enquête à partager</div>
-  <h2 id="share-dialog-title">Fais circuler le dossier</h2>
-  <p>Tu connais quelqu’un qui aime les énigmes ? Envoie-lui le lien d’ORACULUM. Le partage est libre et gratuit, sans récompense liée aux invitations.</p>
-  <div class="share-dialog-actions"><button class="button primary" id="share-oraculum" type="button">Partager ORACULUM</button><button class="button" id="share-later" type="button">Plus tard</button></div>
-  <p class="share-status" id="share-status" role="status" aria-live="polite"></p>
-</dialog>
+
 </body>
 
 
