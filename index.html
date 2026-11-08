@@ -187,6 +187,20 @@
   .links{width:100%;min-width:0;max-width:100%;justify-content:flex-start;flex-wrap:wrap;gap:6px 16px;overflow:visible;white-space:normal;padding:2px 0 5px}
   .links a:nth-child(2){display:inline}
 }
+
+.privacy-notice{position:fixed;z-index:30;right:18px;bottom:18px;width:min(470px,calc(100% - 36px));padding:18px;border:1px solid var(--gold2);background:rgba(17,19,25,.98);box-shadow:0 16px 48px rgba(0,0,0,.5)}
+.privacy-notice[hidden],.privacy-details[hidden]{display:none}
+.privacy-notice h2{margin:0 0 6px;color:var(--gold);font:19px var(--serif)}
+.privacy-notice p{margin:0 0 12px;color:#d1cfc9;font-size:12px;line-height:1.55}
+.privacy-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.privacy-actions .button{min-height:40px;padding-inline:15px;font-size:10px}
+.privacy-details{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}
+@media(max-width:480px){.privacy-notice{right:10px;bottom:10px;width:calc(100% - 20px);padding:15px}}
+.share-card{max-width:760px;margin:28px auto 0;padding:22px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(214,181,104,.07),transparent 55%),var(--panel);text-align:center}
+.share-card h3{margin:0 0 8px;color:var(--gold);font:22px var(--serif)}
+.share-card p{margin:0 auto 16px;max-width:620px;color:var(--muted);font-size:13px}
+.share-status{min-height:1.5em;margin:10px 0 0!important;color:var(--gold)!important;font-size:12px!important}
+@media(max-width:480px){.share-card{padding:18px}}
 </style>
 
 
@@ -387,13 +401,28 @@ cd oraculum-linux-1.1.2
     </div></div></section>
 
 
-    <section id="communaute"><div class="wrap"><div class="head"><div class="kicker">Rejoindre les enquêteurs</div><h2>Suivez le projet</h2><p>Retrouvez la communauté, partagez vos retours et échangez autour des énigmes.</p></div><div class="social"><a class="button primary" href="retours.html">Donner mon retour</a><a class="button" href="https://www.reddit.com/r/oraculum_jeu/" target="_blank" rel="noopener noreferrer">Reddit</a><a class="button" href="https://discord.gg/6vrcQhs96c" target="_blank" rel="noopener noreferrer">Discord</a></div></div></section>
+    <section id="communaute"><div class="wrap"><div class="head"><div class="kicker">Rejoindre les enquêteurs</div><h2>Suivez le projet</h2><p>Retrouvez la communauté, partagez vos retours et échangez autour des énigmes.</p></div><div class="social"><a class="button primary" href="retours.html">Donner mon retour</a><a class="button" href="https://www.reddit.com/r/oraculum_jeu/" target="_blank" rel="noopener noreferrer">Reddit</a><a class="button" href="https://discord.gg/6vrcQhs96c" target="_blank" rel="noopener noreferrer">Discord</a></div><div class="share-card"><h3>Fais circuler le dossier</h3><p>Tu connais quelqu’un qui aime les énigmes ? Envoie-lui le lien d’ORACULUM. Cette invitation est gratuite : aucun paiement, bonus ou avantage n’est lié au nombre de personnes invitées.</p><button class="button primary" id="share-oraculum" type="button">Partager ORACULUM</button><p class="share-status" id="share-status" role="status" aria-live="polite"></p></div></div></section>
 
 
   </main>
 
 
   <footer><div class="wrap"><strong>ORACULUM</strong><div>La vérité dort sous le voile.</div><div style="margin-top:8px">Créé et développé par La Fondation ORACULUM · Android · Windows · Linux</div><div style="margin-top:8px"><a href="https://oraculum-jeu.devscarabello.workers.dev">Site officiel</a></div></div></footer>
+<aside class="privacy-notice" id="privacy-notice" aria-labelledby="privacy-title" aria-describedby="privacy-copy" hidden>
+  <h2 id="privacy-title">Cookies et confidentialité</h2>
+  <p id="privacy-copy">ORACULUM n’utilise pas de cookies publicitaires ni de suivi. Seul votre choix de fermer cette notice est mémorisé sur cet appareil.</p>
+  <div class="privacy-actions"><button class="button primary" id="privacy-close" type="button">Compris, fermer</button><button class="button" id="privacy-details-toggle" type="button" aria-expanded="false" aria-controls="privacy-details">En savoir plus</button></div>
+  <div class="privacy-details" id="privacy-details" hidden>Ce choix reste dans le stockage local de votre navigateur. Il n’est pas envoyé au site et ne sert pas à vous suivre.</div>
+</aside>
+<script>
+(function(){
+ const notice=document.getElementById("privacy-notice"),closeButton=document.getElementById("privacy-close"),detailsButton=document.getElementById("privacy-details-toggle"),details=document.getElementById("privacy-details");
+ let dismissed=false;try{dismissed=localStorage.getItem("oraculum-privacy-notice-dismissed")==="true"}catch{}
+ if(!dismissed)notice.hidden=false;
+ closeButton.addEventListener("click",()=>{notice.hidden=true;try{localStorage.setItem("oraculum-privacy-notice-dismissed","true")}catch{}});
+ detailsButton.addEventListener("click",()=>{details.hidden=!details.hidden;detailsButton.setAttribute("aria-expanded",String(!details.hidden))});
+})();
+</script>
 
 
 <script>
@@ -448,6 +477,17 @@ window.addEventListener("pageshow", (event) => {
   if (event.persisted || window.location.hash || !window.matchMedia("(max-width:720px)").matches) return;
   requestAnimationFrame(() => window.scrollTo({left:0, top:0, behavior:"instant"}));
 }, {once:true});
+</script>
+<script>
+(function(){
+ const button=document.getElementById("share-oraculum"),status=document.getElementById("share-status");
+ const data={title:"ORACULUM — La vérité dort sous le voile",text:"Découvre ORACULUM, un jeu d’énigmes narratif. À ton tour, tu peux partager le dossier avec qui tu veux.",url:"https://la-fondation-oraculum.github.io/ORACULUM/"};
+ button?.addEventListener("click",async()=>{
+  if(navigator.share){try{await navigator.share(data);status.textContent="Le menu de partage a été ouvert"}catch(error){if(error.name!=="AbortError")status.textContent="Le partage n’a pas abouti. Tu peux réessayer"}return}
+  try{await navigator.clipboard.writeText(data.url);status.textContent="Lien copié. Tu peux l’envoyer à la personne de ton choix"}
+  catch{status.textContent="Copie automatique indisponible. Copie l’adresse du site depuis la barre du navigateur"}
+ });
+})();
 </script>
 </body>
 
