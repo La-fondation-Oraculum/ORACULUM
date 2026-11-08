@@ -494,9 +494,26 @@ window.ORACULUM_GITHUB_REPO = "La-fondation-Oraculum/ORACULUM";
       return false;
     }
   }
-  async function copyBeforeCountdown() {
-    await copyLink();
+  function showCopyFallback() {
+    urlField.hidden = false;
+    urlField.focus({ preventScroll: true });
+    urlField.select();
+    status.textContent = "La copie automatique n’est pas disponible ici. Le lien est sélectionné ; le téléchargement continue après 30 secondes.";
+  }
+  function copyBeforeCountdown() {
+    status.textContent = "Copie du lien en cours. Le téléchargement commencera après 30 secondes.";
+    let copyPromise;
+    try {
+      copyPromise = navigator.clipboard.writeText(siteUrl);
+    } catch {
+      showCopyFallback();
+      startCountdown();
+      return;
+    }
     startCountdown();
+    Promise.resolve(copyPromise).then(() => {
+      status.textContent = "Lien du site copié. Le téléchargement commencera après 30 secondes.";
+    }).catch(showCopyFallback);
   }
   async function shareAutomatically() {
     if (mobileShare) {
